@@ -15,7 +15,8 @@ window.onload = function(){
 	}
 
 	function create(){
-		bg = game.add.sprite(0, 0, 'start-bg');
+		game.stage.backgroundColor = "#b4a39c"
+		bg = game.add.sprite(game.world.centerX, game.world.centerY, 'start-bg');
 		robot = game.add.sprite(game.world.centerX, game.world.height, 'start-robot');
 		gear1 = game.add.sprite(0, 10, 'start-gear');
 		gear2 = game.add.sprite(10, game.world.centerY -10, 'start-gear');
@@ -44,8 +45,10 @@ window.onload = function(){
 		robot.animations.add('move');
 		robot.animations.play('move', 15, true);
 
-		bg.height = game.world.height;
-		bg.width = game.world.width;
+		bg.anchor.setTo(0.5, 0.5);
+		var scale = height/1400;
+		bg.scale.setTo(scale, scale);
+		
 
 	}
 
