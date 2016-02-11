@@ -47,7 +47,7 @@ var menuState = {
 		this.bg.scale.setTo(scale, scale);
 		
 		var inputKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
-		input.onDown.addOnce(this.start, this);
+		inputKey.onDown.addOnce(this.start, this);
 	},
 
 	update: function(){
@@ -69,7 +69,7 @@ var menuState = {
 			this.direction = -1;
 		}
 	},
-	
+
 	start: function(){
 		console.log("hello");
 		game.state.start('info');
