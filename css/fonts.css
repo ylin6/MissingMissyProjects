@@ -1,0 +1,9 @@
+@font-face {
+    font-family:"Bicycle Fancy";
+    src:url("../assets/fonts/BicycleFancy.ttf") format("truetype");
+}
+
+@font-face {
+    font-family:"Bicycle";
+    src:url("../assets/fonts/Bicycle.ttf") format("truetype");
+}

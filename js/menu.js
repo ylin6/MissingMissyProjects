@@ -48,6 +48,16 @@ var menuState = {
 		
 		var inputKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
 		inputKey.onDown.addOnce(this.start, this);
+
+
+		// Speach recognition
+		
+		recognition.onresult = function(event) { 
+			console.log(event["results"][0][0]["transcript"]);
+  			if(event["results"][0][0]["transcript"] == "play"){
+  				game.state.start('info')
+  			}	 
+		}
 	},
 
 	update: function(){
@@ -71,7 +81,6 @@ var menuState = {
 	},
 
 	start: function(){
-		console.log("hello");
 		game.state.start('info');
 	}
 };

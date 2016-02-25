@@ -8,6 +8,17 @@ var infoState = {
 	cloud4: "",
 	cloud5: "",
 	direction: 1,
+	textIndex: 0,
+	scriptText: "",
+	script: [
+			"Hi there! My name is Rob Oto. Can you tell me what your name is?",
+			"That’s a great name! Can you tell me how old you are?",
+			"What a great age to be! Hey, I seem to have lost my parts, will you help build me again?",
+			"My spare parts are locked in the garage, it only opens if you say 'Open Sesame'!"
+			],
+	ground: "",
+	name: "",
+	age: "",
 
 	preload: function(){
 		game.load.image('info-cloud', 'assets/cloud.png');
@@ -16,10 +27,14 @@ var infoState = {
 	},
 
 	create: function(){
+
 		game.stage.backgroundColor = "#b4a39c";
-		var ground  = game.add.sprite(0, game.world.centerY, 'info-ground');
-		ground.anchor.setTo(1, 1);
-		this.robot = game.add.sprite(game.world.centerX, height, 'info-robot-sprite');
+		this.ground  = game.add.sprite(0, game.world.height, 'info-ground');
+		this.ground.anchor.setTo(0.5, 0.5);
+		this.ground.scale.setTo(this.game.width/this.ground.width * 2, 1);
+		this.robot = game.add.sprite(game.world.centerX, height - 40, 'info-robot-sprite');
+		this.scriptText = game.add.text(game.world.centerX, game.world.height - 20, this.script[0]);
+		this.scriptText.anchor.setTo(0.5);
 		var anim = this.robot.animations.add('anim');
 		this.robot.animations.play('anim', 1, true);
 		this.robot.anchor.setTo(1,1);
@@ -37,8 +52,69 @@ var infoState = {
 		this.cloud5.anchor.setTo(1,0);
 
 		var inputKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
-		inputKey.onDown.addOnce(this.start, this);
+		inputKey.onDown.add(this.advanceScript, this);
+
+		// Speech Recognition
+		recognition.start();
+		instance = this;
+		recognition.onresult = function(event) { 
+			instance.name = event["results"][0][0]["transcript"];
+			instance.script[1] = "Hi " + instance.name + "! Can you tell me how old you are?";
+			console.log(instance.script[1]);
+			instance.textIndex+=1;
+			instance.scriptText.setText(instance.script[instance.textIndex]);	
+		}
+
+		recognition.onend = function(event){
+				
+				if(instance.textIndex < 4){
+					recognition.start();
+				}
+				recognition.onresult = function(event){
+					if(instance.textIndex == 1){
+						instance.age = event["results"][0][0]["transcript"];
+						console.log(instance.age);
+						instance.scriptText.setText(instance.age + "? What a great age to be! Hey " + instance.name + " I seem to have lost my parts, will you help build me again?");
+						instance.textIndex+=1;
+					}
+
+					else if (instance.textIndex == 2){
+						console.log(event["results"][0][0]["transcript"]);
+						instance.textIndex+=1;
+						instance.scriptText.setText(instance.script[instance.textIndex]);
+					}
+
+					else{
+						console.log(event["results"][0][0]["transcript"]);
+						instance.textIndex += 1;
+						instance.openDoor();
+					}
+
+			}
+		}
 	},
+
+	advanceScript: function(){
+		this.textIndex+=1;
+		this.scriptText.setText(this.script[this.textIndex]);
+		instance = this;
+		recognition.onresult = function(event){
+			instance.age = event["results"][0][0]["transcript"];
+			console.log(instance.age);
+			instance.scriptText[2] = age + "? What a great age to be! Hey " + instance.name + " I seem to have lost my parts, will you help build me again?";
+			instance.textIndex+=1;
+			instance.scriptText.setText(instance.script[instance.textIndex]);
+		}	
+		//this.openDoor();
+		
+	},
+
+	openDoor: function(){
+		var openMotion = game.add.tween(this.ground);
+		openMotion.to({x: - 200}, 3000, Phaser.Easing.Default, true);
+		openMotion.onComplete.add(this.start, this);
+	},
+
 
 	update: function(){
 
