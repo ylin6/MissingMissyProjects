@@ -77,6 +77,7 @@ var chooseBuildState = {
 		robot3.events.onInputDown.add(this.selectR, this);
 
 		instance = this;
+		
 		recognition.start();
 		recognition.onresult = function(event) { 
 			console.log(event["results"][0][0]["transcript"]);

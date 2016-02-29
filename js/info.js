@@ -70,6 +70,7 @@ var infoState = {
 				if(instance.textIndex < 4){
 					recognition.start();
 				}
+				
 				recognition.onresult = function(event){
 					if(instance.textIndex == 1){
 						instance.age = event["results"][0][0]["transcript"];
