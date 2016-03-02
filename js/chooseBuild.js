@@ -4,9 +4,9 @@ var chooseBuildState = {
 	selectedRobot:"",
 
 	preload: function(){
-		game.load.image('robot1', 'assets/robot1.png' );
-		game.load.image('robot2', 'assets/robot2.png' );
-		game.load.image('robot3', 'assets/robot3.png' );
+		game.load.image('robot1', 'assets/customRobot/robot1.png' );
+		game.load.image('robot2', 'assets/customRobot2/robot2.png' );
+		game.load.image('robot3', 'assets/customRobot3/robot3.png' );
 	},
 
 	selectR: function(r){
@@ -78,6 +78,7 @@ var chooseBuildState = {
 
 		instance = this;
 		
+		/*
 		recognition.start();
 		recognition.onresult = function(event) { 
 			console.log(event["results"][0][0]["transcript"]);
@@ -94,7 +95,7 @@ var chooseBuildState = {
 			}
 
 			game.state.start("build");
-		}
+		}*/
 
 	},
 

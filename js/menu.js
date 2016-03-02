@@ -51,13 +51,13 @@ var menuState = {
 
 
 		// Speach recognition
-		
+		/*
 		recognition.onresult = function(event) { 
 			console.log(event["results"][0][0]["transcript"]);
   			if(event["results"][0][0]["transcript"] == "play"){
   				game.state.start('info')
   			}	 
-		}
+		}*/
 	},
 
 	update: function(){

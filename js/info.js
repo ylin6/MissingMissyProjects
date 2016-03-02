@@ -55,6 +55,7 @@ var infoState = {
 		inputKey.onDown.add(this.advanceScript, this);
 
 		// Speech Recognition
+		/*
 		recognition.start();
 		instance = this;
 		recognition.onresult = function(event) { 
@@ -63,8 +64,9 @@ var infoState = {
 			console.log(instance.script[1]);
 			instance.textIndex+=1;
 			instance.scriptText.setText(instance.script[instance.textIndex]);	
-		}
+		}*/
 
+		/*
 		recognition.onend = function(event){
 				
 				if(instance.textIndex < 4){
@@ -92,21 +94,26 @@ var infoState = {
 					}
 
 			}
-		}
+		}*/
 	},
 
 	advanceScript: function(){
 		this.textIndex+=1;
+		if(this.textIndex >= 4) {
+			this.openDoor();
+			return;
+		}
+
 		this.scriptText.setText(this.script[this.textIndex]);
 		instance = this;
+		/*
 		recognition.onresult = function(event){
 			instance.age = event["results"][0][0]["transcript"];
 			console.log(instance.age);
 			instance.scriptText[2] = age + "? What a great age to be! Hey " + instance.name + " I seem to have lost my parts, will you help build me again?";
 			instance.textIndex+=1;
 			instance.scriptText.setText(instance.script[instance.textIndex]);
-		}	
-		//this.openDoor();
+		}	*/
 		
 	},
 
