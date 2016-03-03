@@ -7,14 +7,14 @@ var menuState = {
 
 	preload: function(){
 		game.load.image('start-bg', 'assets/startpage.png' );
-		game.load.image('start-robot', 'assets/startrobot.png');
+		game.load.image('start-robot', 'assets/customRobot1/robot1_a.png');
 		game.load.image('start-gear', 'assets/startgear.png');
 	},
 
 	create: function(){
 		game.stage.backgroundColor = "#b4a39c";
 		this.bg = game.add.sprite(game.world.centerX, game.world.centerY, 'start-bg');
-		this.robot = game.add.sprite(game.world.centerX, game.world.height, 'start-robot');
+		this.robot = game.add.sprite(game.world.centerX, game.world.height + 30, 'start-robot');
 		this.gear1 = game.add.sprite(0, 10, 'start-gear');
 		this.gear2 = game.add.sprite(10, game.world.centerY -10, 'start-gear');
 		this.gear3 = game.add.sprite(0, game.world.height-20, 'start-gear');
@@ -37,7 +37,7 @@ var menuState = {
 
 
 		this.robot.anchor.setTo(0.5, 1);
-		this.robot.scale.setTo(0.20, 0.2);
+		this.robot.scale.setTo(0.21, 0.21);
 
 		this.robot.animations.add('move');
 		this.robot.animations.play('move', 15, true);

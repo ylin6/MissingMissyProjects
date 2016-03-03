@@ -1,22 +1,22 @@
 var build = {
 	robot: "",
 	colorIndex: 0,
+	selectedRobot:"",
 
 	preload: function(){
-		console.log
 		if(game.state.states["choose-build"].selectedRobot == "robot1"){
 			console.log(game.state.states["choose-build"].selectedRobot);
-			game.load.spritesheet('robot', 'assets/customRobot1/customRobotSprite1.png', 564, 1466, 3);
+			game.load.spritesheet('robot', 'assets/customRobot1/customRobotSprite1.png', 701, 1724, 3);
 		}
 
 		else if (game.state.states["choose-build"].selectedRobot == "robot2"){
 			console.log(game.state.states["choose-build"].selectedRobot);
-			game.load.spritesheet('robot', 'assets/customRobot2/customRobotSprite2.png', 627, 1434, 3);
+			game.load.spritesheet('robot', 'assets/customRobot2/customRobotSprite2.png', 926.3, 1661, 3);
 		}
 
 		else if (game.state.states["choose-build"].selectedRobot == "robot3"){
 			console.log(game.state.states["choose-build"].selectedRobot);
-			game.load.spritesheet('robot', 'assets/customRobot3/customRobotSprite3.png', 754, 1435, 3 );
+			game.load.spritesheet('robot', 'assets/customRobot3/customRobotSprite3.png', 799, 1694, 3 );
 		}
 		
 		game.load.image('button', 'assets/arrowbutton.png');
@@ -40,6 +40,10 @@ var build = {
 
 		button1.inputEnabled = true;
 		button2.inputEnabled = true;
+
+		var inputKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
+		inputKey.onDown.add(this.goToMenu, this);
+
 		
 	},
 
@@ -62,6 +66,22 @@ var build = {
 		else if (r.key == "button" && robot.frame == 0){
 			robot.frame = 2;
 		}
+	},
+
+	goToMenu: function(){
+		if(robot.frame == 0){
+			this.selectedRobot = "a";
+		}
+
+		else if (robot.frame == 1){
+			this.selectedRobot = "b";
+		}
+
+		else{
+			this.selectedRobot = "c";
+		}
+
+		game.state.start('house-menu')
 	}	
 
 }

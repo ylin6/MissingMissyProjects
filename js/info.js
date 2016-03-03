@@ -23,7 +23,7 @@ var infoState = {
 	preload: function(){
 		game.load.image('info-cloud', 'assets/cloud.png');
 		game.load.image('info-ground', 'assets/ground.png');
-		game.load.spritesheet('info-robot-sprite', 'assets/robot_sprite/robot_sprite.png', 365, 492, 3);
+		game.load.image('info-robot-sprite', 'assets/customRobot1/robot1_a.png', 365, 492, 3);
 	},
 
 	create: function(){
@@ -35,9 +35,9 @@ var infoState = {
 		this.robot = game.add.sprite(game.world.centerX, height - 40, 'info-robot-sprite');
 		this.scriptText = game.add.text(game.world.centerX, game.world.height - 20, this.script[0]);
 		this.scriptText.anchor.setTo(0.5);
-		var anim = this.robot.animations.add('anim');
-		this.robot.animations.play('anim', 1, true);
 		this.robot.anchor.setTo(1,1);
+		var scale = height/1400;
+		this.robot.scale.setTo(scale/2.5, scale/2.5);
 		this.cloud1 = game.add.sprite(50, -18, 'info-cloud');
 		this.cloud2 = game.add.sprite(game.world.centerX * 1/2 - 50, -30, 'info-cloud');
 		this.cloud3 = game.add.sprite(game.world.centerX, -20, 'info-cloud');

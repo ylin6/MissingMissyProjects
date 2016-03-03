@@ -4,9 +4,12 @@ var chooseBuildState = {
 	selectedRobot:"",
 
 	preload: function(){
-		game.load.image('robot1', 'assets/customRobot/robot1.png' );
-		game.load.image('robot2', 'assets/customRobot2/robot2.png' );
-		game.load.image('robot3', 'assets/customRobot3/robot3.png' );
+		game.load.image('robot1', 'assets/customRobot1/robot1_a.png' );
+		game.load.image('robot2', 'assets/customRobot2/robot2_a.png' );
+		game.load.image('robot3', 'assets/customRobot3/robot3_a.png' );
+		game.load.image('robot1_shadow', 'assets/customRobot1/robot1_shadow.png' );
+		game.load.image('robot2_shadow', 'assets/customRobot2/robot2_shadow.png' );
+		game.load.image('robot3_shadow', 'assets/customRobot3/robot3_shadow.png' );
 	},
 
 	selectR: function(r){
@@ -28,6 +31,11 @@ var chooseBuildState = {
 
 	create: function(){
 		game.stage.backgroundColor = "#b4a39c";
+
+		var robot1_shadow  = game.add.sprite(game.world.width * 1/4 - 10, game.world.centerY + 10, 'robot1_shadow');
+		var robot2_shadow  = game.add.sprite(game.world.width * 2/4 - 10, game.world.centerY + 10, 'robot2_shadow');
+		var robot3_shadow  = game.add.sprite(game.world.width * 3/4 - 10, game.world.centerY + 10, 'robot3_shadow');
+		
 		robot1  = game.add.sprite(game.world.width * 1/4, game.world.centerY, 'robot1');
 		robot2  = game.add.sprite(game.world.width * 2/4, game.world.centerY, 'robot2');
 		robot3  = game.add.sprite(game.world.width * 3/4, game.world.centerY, 'robot3');
@@ -36,14 +44,22 @@ var chooseBuildState = {
 		robot2.anchor.setTo(0.5, 0.5);
 		robot3.anchor.setTo(0.5, 0.5);
 
-		var scale = height/1400;
-		robot1.scale.setTo(scale/1.8, scale/1.8);
-		robot2.scale.setTo(scale/1.8, scale/1.8);
-		robot3.scale.setTo(scale/1.8, scale/1.8);
+		robot1_shadow.anchor.setTo(0.5, 0.5);
+		robot2_shadow.anchor.setTo(0.5, 0.5);
+		robot3_shadow.anchor.setTo(0.5, 0.5);
 
-		robotText1 = game.add.text(game.world.width * 1/4, game.world.height* 5/6, "Rob");
-		robotText2 = game.add.text(game.world.width * 2/4, game.world.height* 5/6, "Henry");
-		robotText3 = game.add.text(game.world.width * 3/4, game.world.height* 5/6, "Ben");
+		var scale = height/1400;
+		robot1.scale.setTo(scale/2.0, scale/2.0);
+		robot2.scale.setTo(scale/2.0, scale/2.0);
+		robot3.scale.setTo(scale/2.0, scale/2.0);
+
+		robot1_shadow.scale.setTo(scale/2.0, scale/2.0);
+		robot2_shadow.scale.setTo(scale/2.0, scale/2.0);
+		robot3_shadow.scale.setTo(scale/2.0, scale/2.0);
+
+		robotText1 = game.add.text(game.world.width * 1/4, game.world.height* 6/7, "Rob");
+		robotText2 = game.add.text(game.world.width * 2/4, game.world.height* 6/7, "Henry");
+		robotText3 = game.add.text(game.world.width * 3/4, game.world.height* 6/7, "Ben");
 
 		robotText1.font = 'Bicycle';
 		robotText1.addColor("#ffffff", 0)
