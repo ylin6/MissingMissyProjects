@@ -115,6 +115,14 @@ var chooseBuildState = {
 
 	},
 
+	actionOver: function(){
+		this.button.tint = "0x333333"
+	},
+
+	actionOut: function(){
+		this.button.tint = "0xffffff"
+	},
+
 	update: function(){
 		if(robot1.input.pointerOver()){
 			robot1.tint = "0x333333";

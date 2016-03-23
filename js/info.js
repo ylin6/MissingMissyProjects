@@ -19,11 +19,14 @@ var infoState = {
 	ground: "",
 	name: "",
 	age: "",
+	button: "",
+
 
 	preload: function(){
 		game.load.image('info-cloud', 'assets/cloud.png');
 		game.load.image('info-ground', 'assets/ground.png');
 		game.load.image('info-robot-sprite', 'assets/customRobot1/robot1_a.png', 365, 492, 3);
+		game.load.image('btn', 'assets/arrowbutton2.png')
 	},
 
 	create: function(){
@@ -53,6 +56,10 @@ var infoState = {
 
 		var inputKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
 		inputKey.onDown.add(this.advanceScript, this);
+
+		this.button = game.add.button(game.world.width - 100, game.world.height - 100, 'btn', this.advanceScript, this, 2, 1, 0);
+		this.button.onInputOver.add(this.actionOver, this);
+		this.button.onInputOut.add(this.actionOut, this);
 
 		// Speech Recognition
 		/*
@@ -97,6 +104,14 @@ var infoState = {
 		}*/
 	},
 
+	actionOver: function(){
+		this.button.tint = "0x333333"
+	},
+
+	actionOut: function(){
+		this.button.tint = "0xffffff"
+	},
+	
 	advanceScript: function(){
 		this.textIndex+=1;
 		if(this.textIndex >= 4) {

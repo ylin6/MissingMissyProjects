@@ -4,11 +4,15 @@ var menuState = {
 	gear1 : "", gear2 : "", gear3 : "", gear4 : "", gear5 : "", gear6 : "",
 	robotAnimation : "",
 	direction: 1,
+	button: "",
+	alpha: 1,
 
 	preload: function(){
 		game.load.image('start-bg', 'assets/startpage.png' );
 		game.load.image('start-robot', 'assets/customRobot1/robot1_a.png');
 		game.load.image('start-gear', 'assets/startgear.png');
+		game.load.image('play-btn', 'assets/playbutton.png');
+
 	},
 
 	create: function(){
@@ -49,6 +53,12 @@ var menuState = {
 		var inputKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
 		inputKey.onDown.addOnce(this.start, this);
 
+		this.button = game.add.button(game.world.centerX, 100, 'play-btn', this.start, this, 2, 1, 0);
+		this.button.onInputOver.add(this.actionOver, this);
+		this.button.onInputOut.add(this.actionOut, this);
+
+		this.button.anchor.setTo(0.5, 0.5);
+		this.button.scale.setTo(scale, scale);
 
 		// Speach recognition
 		/*
@@ -60,7 +70,16 @@ var menuState = {
 		}*/
 	},
 
+	actionOver: function(){
+		this.button.tint = "0x333333"
+	},
+
+	actionOut: function(){
+		this.button.tint = "0xffffff"
+	},
+
 	update: function(){
+
 
 		this.gear1.angle += 1;
 		this.gear2.angle -= 1;
@@ -78,6 +97,7 @@ var menuState = {
 		else if (this.robot.x > game.world.centerX + 100){
 			this.direction = -1;
 		}
+
 	},
 
 	start: function(){

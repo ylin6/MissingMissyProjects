@@ -2,6 +2,7 @@ var build = {
 	robot: "",
 	colorIndex: 0,
 	selectedRobot:"",
+	okButton:"",
 
 	preload: function(){
 		if(game.state.states["choose-build"].selectedRobot == "robot1"){
@@ -20,20 +21,21 @@ var build = {
 		}
 		
 		game.load.image('button', 'assets/arrowbutton.png');
+		game.load.image('ok-btn', 'assets/okButton.png');
 		game.load.image('button2', 'assets/arrowbutton2.png');
 	},
 
 	create: function(){
 		// robots
-		robot = game.add.sprite(game.world.centerX, game.world.centerY, 'robot');
+		robot = game.add.sprite(game.world.centerX, game.world.centerY * 4/5, 'robot');
 		robot.anchor.setTo(0.5);
 		var scale = height/1400;
-		robot.scale.setTo(scale/1.5, scale/1.5);
+		robot.scale.setTo(scale/2, scale/2);
 		robot.frame = 0;
 
 		// buttons
-		var button1 = game.add.button(game.world.centerX - 200, game.world.centerY , 'button', this.actionOnClick, this, 2, 1, 0);
-		var button2 = game.add.button(game.world.centerX + 200, game.world.centerY , 'button2', this.actionOnClick, this, 2, 1, 0);
+		var button1 = game.add.button(game.world.centerX - 200, game.world.centerY * 4/5 , 'button', this.actionOnClick, this, 2, 1, 0);
+		var button2 = game.add.button(game.world.centerX + 200, game.world.centerY * 4/5, 'button2', this.actionOnClick, this, 2, 1, 0);
 		
 		button1.anchor.setTo(0.5);
 		button2.anchor.setTo(0.5);
@@ -44,7 +46,20 @@ var build = {
 		var inputKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
 		inputKey.onDown.add(this.goToMenu, this);
 
+		this.okButton = game.add.button(game.world.centerX, game.world.height - 100, 'ok-btn', this.goToMenu, this, 2, 1, 0);
+		this.okButton.onInputOver.add(this.actionOver, this);
+		this.okButton.onInputOut.add(this.actionOut, this);
+		this.okButton.anchor.setTo(0.5);
+		this.okButton.scale.setTo(scale);
 		
+	},
+	
+	actionOver: function(){
+		this.okButton.tint = "0x333333"
+	},
+
+	actionOut: function(){
+		this.okButton.tint = "0xffffff"
 	},
 
 	actionOnClick: function(r){
