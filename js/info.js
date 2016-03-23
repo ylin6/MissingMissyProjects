@@ -102,6 +102,16 @@ var infoState = {
 
 			}
 		}*/
+
+		this.speechSynth();
+
+
+	},
+
+	speechSynth: function(){
+		var synth = window.speechSynthesis;
+		var s = new SpeechSynthesisUtterance(this.script[this.textIndex]);
+		synth.speak(s);
 	},
 
 	actionOver: function(){
@@ -111,14 +121,14 @@ var infoState = {
 	actionOut: function(){
 		this.button.tint = "0xffffff"
 	},
-	
+
 	advanceScript: function(){
 		this.textIndex+=1;
 		if(this.textIndex >= 4) {
 			this.openDoor();
 			return;
 		}
-
+		this.speechSynth();
 		this.scriptText.setText(this.script[this.textIndex]);
 		instance = this;
 		/*
