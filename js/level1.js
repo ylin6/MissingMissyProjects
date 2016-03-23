@@ -121,10 +121,17 @@ var level1 = {
 				this.sail.tint = "0x13a89e";
 				game.time.events.add(3000, this.getInBoat, this);
 			}
-
-			this.scriptText.setText(this.script[this.advanceFlag]);
+			var text=this.script[this.advanceFlag];
+			this.scriptText.setText(text);
+			this.speak(text);
 		}
 	},
+
+	speak: function(text){
+		var synth=window.speechSynthesis;
+		var s=new SpeechSynthesisUtterance(text);
+		synth.speak(s);
+	}
 
 	getInBoat: function(){
 		this.shipGroup.add(this.robot);
