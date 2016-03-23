@@ -3,6 +3,8 @@ var level1 = {
 	cloud1: "", cloud2:"", cloud3:"", cloud4: "", cloud5:"",
 	ship: "",
 	water:"",
+	kraken:"",
+	kraken_arms:"",
 	sail:"",
 	gear: "",
 	direction:1,
@@ -16,8 +18,8 @@ var level1 = {
 			"Thanks! What color are the sails?",
 			"Brown is no color for the high seas! What color should we paint them to?",
 			"Great! You earned three coins for passing your first challenge! You can earn coins all over my house to buy me cool clothes and decorate my home! Now let’s set sail!!",
-			"Oh no! The Kraken has risen from our plumbing system! We have to defeat it! Say the number of arms the Kraken has out of the water and I’ll throw my gears at them!",
-			"Great job Benjamin, how about now?",
+			"Oh no! The Kraken has risen from our plumbing system! We have to defeat it! Say the number of arms the Kraken has and I’ll throw my gears at them!",
+			"Great job, how about now?",
 			"You did it! Do you remember the name of the monster we defeated?",
 			"You got a total of four coins from that Kraken!",
 			"Oh man! It never ends! Sharks! Can you say “Sharp teeth?",
@@ -50,6 +52,8 @@ var level1 = {
 		game.load.image('gear', 'assets/shipGear.png');
 		game.load.image('water', 'assets/water.png');
 		game.load.image('bg', 'assets/level1bg.png')
+		game.load.image('kraken', 'assets/kraken.png');
+		game.load.image('kraken-arms', 'assets/kraken_arms.png');
 
 	},
 
@@ -93,6 +97,13 @@ var level1 = {
 		
 
 		this.robot.anchor.setTo(0.5);
+		this.kraken = game.add.sprite(game.world.width * 4/5, game.world.height + 500, 'kraken');
+		this.kraken_arms = game.add.sprite(game.world.width * 4/5, game.world.height + 500, 'kraken-arms');
+		this.kraken.anchor.setTo(0.5);
+		this.kraken.scale.setTo(scale);
+		this.kraken_arms.anchor.setTo(0.5);
+		this.kraken_arms.scale.setTo(scale);
+
 		this.water = game.add.sprite(0, 0, 'water');
 		this.water.scale.setTo(scale, scale);
 		this.cloud1.scale.setTo(0.52, 0.52);
@@ -119,11 +130,34 @@ var level1 = {
 			if(this.advanceFlag == 3){
 			// Change Color of sails
 				this.sail.tint = "0x13a89e";
-				game.time.events.add(3000, this.getInBoat, this);
+				game.time.events.add(500, this.getInBoat, this);
 			}
+
+			else if(this.advanceFlag == 5){
+				this.krakenHurt();
+			}
+
+			else if(this.advanceFlag == 6){
+				this.krakenDies();
+			}
+
+			else if(this.advanceFlag == 7){
+				this.go = true;
+			}
+
 
 			this.scriptText.setText(this.script[this.advanceFlag]);
 		}
+	},
+
+	krakenHurt: function(){
+		var anim = game.add.tween(this.kraken_arms);
+		anim.to({y: game.world.height + 1000}, 600, Phaser.Easing.Default, true);
+	},
+
+	krakenDies: function(){
+		var anim = game.add.tween(this.kraken);
+		anim.to({y: game.world.height + 1000}, 600, Phaser.Easing.Default, true);	
 	},
 
 	getInBoat: function(){
@@ -139,6 +173,11 @@ var level1 = {
 	},
 
 	krakenAttack: function(){
+		this.advance();
+		var anim = game.add.tween(this.kraken);
+		anim.to({y: game.world.height - 200}, 1300, Phaser.Easing.Default, true);
+		var anim2 = game.add.tween(this.kraken_arms);
+		anim2.to({y: game.world.height - 200}, 1300, Phaser.Easing.Default, true);
 		console.log("krakenAttack");
 	},
 
@@ -170,16 +209,18 @@ var level1 = {
 
 			this.bg.x -= 5;
 			this.water.x -=1;
+
 			if(this.bg.x < -1 * (this.bg.width - this.game.world.width )){
 				this.go = false;
 			}
 
-			else if(this.bg.x < -1/3 * this.bg.width){
+			else if(this.bg.x < -1/4 * this.bg.width && this.bg.x > -1/4 * this.bg.width - 4){
 				this.go = false;
 				this.krakenAttack();
 			}
 		}
 
+		this.kraken.y += 0.05 * this.direction;
 		this.water.y -= 0.1 * this.direction;
 		this.shipGroup.y -= 0.1 * this.direction;
 
