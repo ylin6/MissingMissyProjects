@@ -166,7 +166,6 @@ var level1 = {
 				this.go = true;
 			}
 
-<<<<<<< HEAD
 			else if(this.advanceFlag == 10){
 				this.sharkDies(this.shark1);
 			}
@@ -182,22 +181,8 @@ var level1 = {
 
 			this.speechSynth();
 			this.scriptText.setText(this.script[this.advanceFlag]);
-=======
-			var text=this.script[this.advanceFlag];
-			this.scriptText.setText(text);
-			this.speak(text);
->>>>>>> e488f5f9129270acd161e27c1394392a01eff5cc
 		}
 	},
-
-	speak: function(text){
-		var synth=window.speechSynthesis;
-		var s=new SpeechSynthesisUtterance(text);
-		synth.speak(s);
-	},
-
-
-		//	this.scriptText.setText(this.script[this.advanceFlag]);
 
 	krakenHurt: function(){
 		var anim = game.add.tween(this.kraken_arms);
@@ -208,7 +193,6 @@ var level1 = {
 		var anim = game.add.tween(this.kraken);
 		anim.to({y: game.world.height + 1000}, 600, Phaser.Easing.Default, true);	
 	},
->>>>>>> 09739d9b253e284b34e89a3c095c1cdd442750ea
 
 	getInBoat: function(){
 		this.shipGroup.add(this.robot);
