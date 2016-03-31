@@ -1,0 +1,9 @@
+{
+  "firebase": "sizzling-inferno-4441",
+  "public": "./",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
