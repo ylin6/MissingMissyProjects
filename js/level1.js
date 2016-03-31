@@ -1,4 +1,7 @@
 var level1 = {
+	button1:"", button2:"", button3:"",
+	button1Text:"", button2Text:"", button3Text:"",
+	buttonGroup1:"", buttonGroup2:"", buttonGroup3:"",
 	robot: "",
 	cloud1: "", cloud2:"", cloud3:"", cloud4: "", cloud5:"",
 	ship: "",
@@ -132,7 +135,7 @@ var level1 = {
 		this.cloud5.scale.setTo(0.47, 0.5);
 		this.robot.scale.setTo(scale/3, scale/3);
 
-		this.scriptText = game.add.text(game.world.centerX, game.world.height - 20, this.script[0]);
+		this.scriptText = game.add.text(game.world.centerX, game.world.height - 100, this.script[0]);
 		this.speechSynth();
 		this.scriptText.anchor.setTo(0.5);
 		this.scriptText.addColor("#ffffff", 0)
@@ -145,8 +148,146 @@ var level1 = {
 		var inputKey2 = game.input.keyboard.addKey(Phaser.Keyboard.S);
 		inputKey2.onDown.add(this.throwGear, this);
 
+		// Answer Buttons
+		this.button1 = game.add.button(game.world.centerX - 100, game.world.height - 50 , 'gears', this.answerCheck, this, 2, 1, 0);
+		this.button1.anchor.setTo(0.5, 0.5)
+		this.button1.scale.setTo(0.4, 0.4);
+		this.button1.tint = "0xffcc38"
+
+		this.button2 = game.add.button(game.world.centerX, game.world.height - 50 , 'gears', this.answerCheck, this, 2, 1, 0);
+		this.button2.anchor.setTo(0.5, 0.5)
+		this.button2.scale.setTo(0.4, 0.4);
+		this.button2.tint = "0xffcc38";
+
+		this.button3 = game.add.button(game.world.centerX + 100, game.world.height - 50 , 'gears', this.answerCheck, this, 2, 1, 0);
+		this.button3.anchor.setTo(0.5, 0.5)
+		this.button3.scale.setTo(0.4, 0.4);
+		this.button3.tint = "0xffcc38";
+
+		this.buttonText1 = game.add.text(game.world.centerX - 100, game.world.height - 50, "continue");
+		this.buttonText1.anchor.setTo(0.5);
+		this.buttonText1.fontSize = 16;
+
+		this.buttonText2 = game.add.text(game.world.centerX, game.world.height - 50, "\"I'll Help You!\"");
+		this.buttonText2.anchor.setTo(0.5);
+		this.buttonText2.fontSize = 16;
+
+		this.buttonText3 = game.add.text(game.world.centerX + 100, game.world.height - 50, "continue");
+		this.buttonText3.anchor.setTo(0.5);
+		this.buttonText3.fontSize = 16;
+
+		this.buttonGroup1 = game.add.group();
+		this.buttonGroup2 = game.add.group();
+		this.buttonGroup3 = game.add.group();
+
+		
+		this.buttonGroup1.add(this.button1);
+		this.buttonGroup1.add(this.buttonText1);
+
+		
+		this.buttonGroup2.add(this.button2);
+		this.buttonGroup2.add(this.buttonText2);
+
+		this.buttonGroup3.add(this.button3);
+		this.buttonGroup3.add(this.buttonText3);
+
+		this.button1.onInputOver.add(this.actionOver, this);
+		this.button1.onInputOut.add(this.actionOut, this);
+
+		this.button2.onInputOver.add(this.actionOver, this);
+		this.button2.onInputOut.add(this.actionOut, this);
+
+		this.button3.onInputOver.add(this.actionOver, this);
+		this.button3.onInputOut.add(this.actionOut, this);
+
+		this.buttonGroup1.visible = false;
+		this.buttonGroup3.visible = false;
 
 	},
+
+	answerCheck: function(r){
+		if(this.advanceFlag == 0){
+			this.buttonText3.setText("Blue");
+			this.buttonText1.setText("Brown");
+			this.buttonText2.setText("Green");
+
+			this.buttonGroup1.visible = true;
+			this.buttonGroup3.visible = true;
+
+			this.advance();
+		}
+
+		else if (this.advanceFlag == 1 && r == this.button1){
+			this.buttonText3.setText("Red");
+			this.buttonText1.setText("Green");
+			this.buttonText2.setText("Blue");
+			this.advance();
+		}
+
+		else if(this.advanceFlag == 2 && r == this.button1){
+			this.sail.tint = "0x13a89e";
+			this.buttonGroup1.visible = false;
+			this.buttonGroup2.visible = false;
+			this.buttonGroup3.visible = false;
+			this.advance();
+		}
+
+		else if(this.advanceFlag == 2 && r == this.button2){
+			this.sail.tint = "0x2233cc";
+			this.buttonGroup1.visible = false;
+			this.buttonGroup2.visible = false;
+			this.buttonGroup3.visible = false;
+			this.advance();
+		}
+
+		else if(this.advanceFlag == 2 && r == this.button3){
+			this.sail.tint = "0xcc2233";
+			this.buttonGroup1.visible = false;
+			this.buttonGroup2.visible = false;
+			this.buttonGroup3.visible = false;
+			this.advance();
+
+		}
+
+		else if (this.advanceFlag == 4 && r == this.button2){
+			this.buttonText3.setText("2");
+			this.buttonText1.setText("4");
+			this.buttonText2.setText("6");
+			this.advance();
+
+		}
+
+		else if(this.advanceFlag == 5 && r== this.button1){
+			this.buttonText1.setText("Kraken");
+			this.buttonText2.setText("BigFoot");
+			this.buttonText3.setText("Loch Ness");
+			this.advance();
+		}
+
+		else if(this.advanceFlag == 6 && r== this.button1){
+			this.buttonGroup1.visible = false;
+			this.buttonGroup2.visible = false;
+			this.buttonGroup3.visible = false;
+			this.advance();
+		}
+
+		else if(this.advanceFlag == 8 || this.advanceFlag == 9 || this.advanceFlag == 10 || this.advanceFlag == 11){
+			if(this.advanceFlag == 8){
+				this.buttonText2.setText("Mouth");
+			}
+			this.advance();
+		}
+
+	},
+
+	actionOver: function(r){
+		r.tint = "0x777777"
+	},
+
+	actionOut: function(r){
+		r.tint = "0xffcc38"
+	},
+
 
 	throwGear: function(){
 		this.gear2.visible = true;
@@ -166,10 +307,12 @@ var level1 = {
 			}
 
 			else if(instance.advanceFlag == 10){
+				this.buttonText2.setText("Nose");
 				instance.sharkDies(instance.shark1);
 			}
 
 			else if(this.advanceFlag == 11){
+				this.buttonText2.setText("Eyeball");
 				instance.sharkDies(instance.shark2);
 			}
 
@@ -192,7 +335,6 @@ var level1 = {
 			this.advanceFlag += 1;
 			if(this.advanceFlag == 3){
 			// Change Color of sails
-				this.sail.tint = "0x13a89e";
 				game.time.events.add(11000, this.getInBoat, this);
 			}
 
@@ -233,6 +375,15 @@ var level1 = {
 
 	krakenAttack: function(){
 		this.advance();
+		this.buttonGroup1.visible = true;
+		this.buttonGroup2.visible = true;
+		this.buttonGroup3.visible = true;
+
+		this.buttonText3.setText("4");
+		this.buttonText1.setText("5");
+		this.buttonText2.setText("8");
+
+
 		var anim = game.add.tween(this.kraken);
 		anim.to({y: game.world.height - 200}, 1300, Phaser.Easing.Default, true);
 		var anim2 = game.add.tween(this.kraken_arms);
@@ -241,6 +392,8 @@ var level1 = {
 	},
 
 	sharkAttack: function(){
+		this.buttonText2.setText("Sharp Teeth!");
+		this.buttonGroup2.visible = true;
 		this.advance();
 		var anim1 = game.add.tween(this.shark1);
 		anim1.to({y: game.world.height - 200}, 1300, Phaser.Easing.Default, true);
