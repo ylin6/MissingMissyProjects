@@ -18,14 +18,13 @@ recognition.start();*/
 
 // Load fonts and then start game
 WebFont.load({
-	active: function() { 
+	active: function() {
         console.log("font loaded");
-        game.state.start('level1');
+        game.state.start('menu');
     },
-	
+
 	custom: {
       	families: ['Bicycle Fancy', 'Bicyle', 'Whitney'],
       	urls: ['../css/fonts.css']
-    }		
+    }
 });
-
