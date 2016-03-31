@@ -20,11 +20,11 @@ recognition.start();*/
 WebFont.load({
 	active: function() { 
         console.log("font loaded");
-        game.state.start('menu');
+        game.state.start('level1');
     },
 	
 	custom: {
-      	families: ['Bicycle Fancy', 'Bicyle'],
+      	families: ['Bicycle Fancy', 'Bicyle', 'Whitney'],
       	urls: ['../css/fonts.css']
     }		
 });

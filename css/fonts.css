@@ -7,3 +7,8 @@
     font-family:"Bicycle";
     src:url("../assets/fonts/Bicycle.ttf") format("truetype");
 }
+
+@font-face {
+    font-family:"Whitney";
+    src:url("../assets/fonts/Whitney-Medium.otf") format("opentype");
+}

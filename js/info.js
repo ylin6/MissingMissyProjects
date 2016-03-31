@@ -20,13 +20,14 @@ var infoState = {
 	name: "",
 	age: "",
 	button: "",
+	buttonText:"",
 
 
 	preload: function(){
 		game.load.image('info-cloud', 'assets/cloud.png');
 		game.load.image('info-ground', 'assets/ground.png');
 		game.load.image('info-robot-sprite', 'assets/customRobot1/robot1_a.png', 365, 492, 3);
-		game.load.image('btn', 'assets/arrowbutton2.png')
+		game.load.image('btn', 'assets/optionButton.png')
 	},
 
 	create: function(){
@@ -35,8 +36,8 @@ var infoState = {
 		this.ground  = game.add.sprite(0, game.world.height, 'info-ground');
 		this.ground.anchor.setTo(0.5, 0.5);
 		this.ground.scale.setTo(this.game.width/this.ground.width * 2, 1);
-		this.robot = game.add.sprite(game.world.centerX, height - 40, 'info-robot-sprite');
-		this.scriptText = game.add.text(game.world.centerX, game.world.height - 20, this.script[0]);
+		this.robot = game.add.sprite(game.world.centerX, game.world.height - this.ground.height/2, 'info-robot-sprite');
+		this.scriptText = game.add.text(game.world.centerX, game.world.height - this.ground.height/2 + 20, this.script[0]);
 		this.scriptText.anchor.setTo(0.5);
 		this.robot.anchor.setTo(1,1);
 		var scale = height/1400;
@@ -47,20 +48,30 @@ var infoState = {
 		this.cloud4 = game.add.sprite(game.world.centerX * 5/4, -30, 'info-cloud');
 		this.cloud5 = game.add.sprite(width - 50, -25, 'info-cloud');
 		this.cloud3.anchor.setTo(0.5, 0);
-		this.cloud1.scale.setTo(0.62, 0.62);
-		this.cloud2.scale.setTo(0.4, 0.4);
-		this.cloud3.scale.setTo(0.7, 0.7);
+		this.cloud1.scale.setTo(0.45, 0.45);
+		this.cloud2.scale.setTo(0.38, 0.38);
+		this.cloud3.scale.setTo(0.6, 0.6);
 		this.cloud4.scale.setTo(0.49, 0.49);
-		this.cloud5.scale.setTo(0.67, 0.67);
+		this.cloud5.scale.setTo(0.57, 0.57);
 		this.cloud5.anchor.setTo(1,0);
+
+		this.scriptText.fontSize = 18;
+		this.scriptText.font = 'Whitney';
 
 		var inputKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
 		inputKey.onDown.add(this.advanceScript, this);
 
-		this.button = game.add.button(game.world.width - 100, game.world.height - 100, 'btn', this.advanceScript, this, 2, 1, 0);
+		this.button = game.add.button(game.world.width/2, game.world.height - this.ground.height/2 + 40 , 'btn', this.advanceScript, this, 2, 1, 0);
+		this.button.anchor.setTo(0.5, 0)
+		this.button.scale.setTo(0.4, 0.4);
+		this.button.tint = "0xffcc38"
+
 		this.button.onInputOver.add(this.actionOver, this);
 		this.button.onInputOut.add(this.actionOut, this);
-
+		this.buttonText = game.add.text(game.world.centerX, game.world.height - this.ground.height/2 +  this.button.height * 3/2, "continue");
+		this.buttonText.anchor.setTo(0.5);
+		this.buttonText.fontSize = 16;
+		//this.buttonText.addColor("#ffffff", 0)
 		// Speech Recognition
 		/*
 		recognition.start();
@@ -115,16 +126,24 @@ var infoState = {
 	},
 
 	actionOver: function(){
-		this.button.tint = "0x333333"
+		this.button.tint = "0x777777"
 	},
 
 	actionOut: function(){
-		this.button.tint = "0xffffff"
+		this.button.tint = "0xffcc38"
 	},
 
 	advanceScript: function(){
 		this.textIndex+=1;
-		if(this.textIndex >= 4) {
+
+		if(this.textIndex == 2){
+			this.buttonText.setText("Yes, I'll Help You!");
+		}
+
+		else if (this.textIndex == 3){
+			this.buttonText.setText("'Open Sesame'");
+		}
+		else if(this.textIndex >= 4) {
 			this.openDoor();
 			return;
 		}

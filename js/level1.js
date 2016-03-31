@@ -13,6 +13,7 @@ var level1 = {
 	shipGroup:"", 
 	advanceFlag:0,
 	go: false,
+	gear2:"",
 	scriptText:"",
 	script: [
 			"Oh no! My boat is not painted the colors I wanted! I need your help. Can you say I’ll help you?",
@@ -58,6 +59,7 @@ var level1 = {
 		game.load.image('shark1', 'assets/shark1.png');
 		game.load.image('shark2', 'assets/shark2.png');
 		game.load.image('shark3', 'assets/shark3.png');
+		game.load.image('gears', 'assets/optionButton.png');
 
 	},
 
@@ -68,6 +70,9 @@ var level1 = {
 		this.shipGroup = game.add.group();
 		game.stage.backgroundColor = "#b4a39c";
 
+		this.gear2 = game.add.sprite(game.world.width*4/7, game.world.centerY + 50, 'gears');
+		this.gear2.anchor.setTo(0.5);
+		this.gear2.visible = false;
 		// Ship Group
 		this.sail = game.add.sprite(game.world.width * 3/5, game.world.centerY, 'sail');
 		this.ship = game.add.sprite(game.world.width * 3/5, game.world.centerY, 'ship');
@@ -132,11 +137,48 @@ var level1 = {
 		this.scriptText.anchor.setTo(0.5);
 		this.scriptText.addColor("#ffffff", 0)
 		this.scriptText.fontSize = 18;
-		this.sail.tint = "0x5E2612"
+		this.sail.tint = "0x5E2612";
+
 		var inputKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
 		inputKey.onDown.add(this.advance, this);
 
+		var inputKey2 = game.input.keyboard.addKey(Phaser.Keyboard.S);
+		inputKey2.onDown.add(this.throwGear, this);
 
+
+	},
+
+	throwGear: function(){
+		this.gear2.visible = true;
+		var anim = game.add.tween(this.gear2);
+		anim.to({angle: 720, x: game.world.width * 5/6, y: game.world.centerY + 200}, 600, Phaser.Easing.Default, true);
+		var instance = this;
+		anim.onComplete.add(function(){
+			instance.gear2.visible = false;
+			instance.gear2.x = game.world.width * 4/7;
+			instance.gear2.y = game.world.centerY + 50;
+			if(instance.advanceFlag == 5){
+				instance.krakenHurt();
+			}
+
+			else if(instance.advanceFlag == 6){
+				instance.krakenDies();
+			}
+
+			else if(instance.advanceFlag == 10){
+				instance.sharkDies(instance.shark1);
+			}
+
+			else if(this.advanceFlag == 11){
+				instance.sharkDies(instance.shark2);
+			}
+
+			else if(this.advanceFlag == 12){
+				instance.sharkDies(instance.shark3);
+				instance.go = true;
+			}
+
+		}, this);
 	},
 
 	speechSynth: function(){
@@ -154,28 +196,11 @@ var level1 = {
 				game.time.events.add(11000, this.getInBoat, this);
 			}
 
-			else if(this.advanceFlag == 5){
-				this.krakenHurt();
-			}
-
-			else if(this.advanceFlag == 6){
-				this.krakenDies();
+			else if(this.advanceFlag == 5 || this.advanceFlag == 6 || this.advanceFlag == 10 || this.advanceFlag == 11 || this.advanceFlag == 12 ){
+				this.throwGear();
 			}
 
 			else if(this.advanceFlag == 7){
-				this.go = true;
-			}
-
-			else if(this.advanceFlag == 10){
-				this.sharkDies(this.shark1);
-			}
-
-			else if(this.advanceFlag == 11){
-				this.sharkDies(this.shark2);
-			}
-
-			else if(this.advanceFlag == 12){
-				this.sharkDies(this.shark3);
 				this.go = true;
 			}
 

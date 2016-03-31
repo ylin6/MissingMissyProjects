@@ -85,7 +85,7 @@ var chooseBuildState = {
 		titleText.anchor.setTo(0.5, 0.5);
 		titleText.fixedToCamera = true;
 		titleText.font = 'Bicycle Fancy';
-		titleText.addColor("#ffffff", 0)
+		titleText.addColor("#ffffff", 0);
 		titleText.fontSize = 80;
 
 		robot1.events.onInputDown.add(this.selectR, this);
