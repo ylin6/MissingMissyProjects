@@ -14,7 +14,7 @@ var houseMenu = {
 	create: function(){
 		// robots
 		var bg = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
-		var titleText = game.add.text( 50, 50, "SELECT A LEVEL");
+		var titleText = game.add.text( 50, 50, "SELECT A ROOM");
 		titleText.fixedToCamera = true;
 		titleText.font = 'Bicycle Fancy';
 		titleText.addColor("#ffffff", 0)
@@ -80,7 +80,15 @@ var houseMenu = {
 		inputKey.onDown.add(this.gotLevel1, this);
 		bg.inputEnabled = true;
 		bg.events.onInputDown.add(this.gotLevel1, this);
+        
+        this.speechSynth("My beautiful cat, Missy, is missing in my giant mansion! Can you help me find her? Let’s start in my basement! We’ve had a bit of a plumbing problem, but I bought a boat! Click on the basement to go inside!");
 	},
+    
+    speechSynth: function(script){
+        var synth = window.speechSynthesis;
+		var s = new SpeechSynthesisUtterance(script);
+		synth.speak(s);
+    },
 
 	actionOver: function(r){
 		console.log(r);

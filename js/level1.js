@@ -7,6 +7,9 @@ var level1 = {
 	ship: "",
 	water:"",
 	kraken:"",
+    missy:"",
+    coin:"",
+    score:"",
 	kraken_arms:"",
 	shark1:"", shark2:"", shark3:"",
 	sail:"",
@@ -17,6 +20,10 @@ var level1 = {
 	advanceFlag:0,
 	go: false,
 	gear2:"",
+    transition1:"",
+    transition2:"",
+    transition3:"",
+    transition4:"",
 	scriptText:"",
 	script: [
 			"Oh no! My boat is not painted the colors I wanted! I need your help. Can you say I’ll help you?",
@@ -32,7 +39,7 @@ var level1 = {
 			"Now the next one is weak at its nose, can you say nose?",
 			"The final shark has a weak eyeball, can you say eyeball?",
 			"You’re doing great! You should be our plumber!",
-			"Look! There's Missy!"
+			"Look! There's Missy! Lets follow her into the next room"
 	],
 
 	preload: function(){
@@ -50,6 +57,8 @@ var level1 = {
 		}
 
 		console.log(base);
+        game.load.image('coin', 'assets/coin.png');
+        game.load.image('missy', 'assets/missy.png');
 		game.load.image('robot', base );
 		game.load.image('cloud', 'assets/cloud.png');
 		game.load.image('ship', 'assets/ship.png');
@@ -63,7 +72,12 @@ var level1 = {
 		game.load.image('shark2', 'assets/shark2.png');
 		game.load.image('shark3', 'assets/shark3.png');
 		game.load.image('gears', 'assets/optionButton.png');
-
+        game.load.image('homeButton', 'assets/home_button.png');
+        game.load.image('transition1', 'assets/transition1.png');
+        game.load.image('transition2', 'assets/transition2.png');
+        game.load.image('transition3', 'assets/transition3.png');
+        game.load.image('transition4', 'assets/transition4.png');
+        
 	},
 
 	create: function(){
@@ -82,7 +96,6 @@ var level1 = {
 
 		this.robot  = game.add.sprite(game.world.width * 1/6, game.world.height * .45, 'robot');
 		this.gear = game.add.sprite(game.world.width * 3/5, game.world.centerY, 'gear');
-		
 		this.shipGroup.add(this.sail);
 		this.shipGroup.add(this.ship);
 		this.shipGroup.add(this.gear);
@@ -146,7 +159,7 @@ var level1 = {
 		inputKey.onDown.add(this.advance, this);
 
 		var inputKey2 = game.input.keyboard.addKey(Phaser.Keyboard.S);
-		inputKey2.onDown.add(this.throwGear, this);
+		inputKey2.onDown.add(this.transitionAnimation, this);
 
 		// Answer Buttons
 		this.button1 = game.add.button(game.world.centerX - 100, game.world.height - 50 , 'gears', this.answerCheck, this, 2, 1, 0);
@@ -202,8 +215,61 @@ var level1 = {
 
 		this.buttonGroup1.visible = false;
 		this.buttonGroup3.visible = false;
+        
+        this.missy = game.add.sprite(this.bg.width - 200, game.world.height * .48, 'missy');
+        this.missy.scale.setTo(0.7);
+        this.missy.anchor.setTo(0.5);
+        this.coin = game.add.sprite(game.world.width - 50, 90, 'coin');
+        this.coin.anchor.setTo(0.5);
+        this.score = game.add.text(game.world.width - 150, 90, coins.toString());
+        this.score.fontSize = 50;
+        this.score.anchor.setTo(0.5);
+        this.score.font = "Whitney";
+        this.scriptText.font = "Whitney";
+        this.buttonText1.font = "Whitney";
+        this.buttonText2.font = "Whitney";
+        this.buttonText3.font = "Whitney";
+        var homeButton = game.add.button(30, game.world.height - 100 , 'homeButton', this.goHome, this, 2, 1, 0);
+        homeButton.onInputOver.add(this.actionOver, this);
+		homeButton.onInputOut.add(this.actionOut, this);
 
+        this.transition1 = game.add.sprite(0, game.world.height, 'transition1');
+        this.transition2 = game.add.sprite(game.world.width/4, -this.transition1.height, 'transition2');
+        this.transition3 = game.add.sprite(game.world.width/2, game.world.height, 'transition3');
+        this.transition4 = game.add.sprite(game.world.width * 3/4, -this.transition1.height, 'transition4');
+        
+        this.transition1.scale.setTo(scale*1.2);
+        this.transition2.scale.setTo(scale*1.2);
+        this.transition3.scale.setTo(scale*1.2);
+        this.transition4.scale.setTo(scale*1.2);
 	},
+    
+    
+    transitionAnimation: function(){  
+        var anim1 = game.add.tween(this.transition1);
+		anim1.to({y:-500}, 1600, Phaser.Easing.Default, true);
+        var anim2 = game.add.tween(this.transition2);
+		anim2.to({y:-5}, 1600, Phaser.Easing.Default, true);
+        var anim3 = game.add.tween(this.transition3);
+		anim3.to({y:-500}, 1600, Phaser.Easing.Default, true);
+        var anim4 = game.add.tween(this.transition4);
+		anim4.to({y:-5}, 1600, Phaser.Easing.Default, true);
+        
+        anim4.onComplete.add(function(){
+            game.state.start('endLevelMenu');
+        }, this);
+    },
+    
+    goHome: function(){
+        game.state.start('house-menu');
+    },
+    
+    getCoins: function(c){
+        coins += c;
+        this.score.setText(coins.toString());
+        var anim = game.add.tween(this.coin);
+		anim.to({angle: 720}, 600, Phaser.Easing.Default, true);   
+    },
 
 	answerCheck: function(r){
 		if(this.advanceFlag == 0){
@@ -223,9 +289,13 @@ var level1 = {
 			this.buttonText2.setText("Blue");
 			this.advance();
 		}
-
+        
+        else if (this.advanceFlag == 1 && r != this.button1){
+			this.wrongAnswer();
+		}
+        
 		else if(this.advanceFlag == 2 && r == this.button1){
-			this.sail.tint = "0x13a89e";
+			this.sail.tint = "0x22cc33";
 			this.buttonGroup1.visible = false;
 			this.buttonGroup2.visible = false;
 			this.buttonGroup3.visible = false;
@@ -256,6 +326,11 @@ var level1 = {
 			this.advance();
 
 		}
+        
+        else if (this.advanceFlag == 4 && r != this.button2){
+			this.wrongAnswer();
+
+		}
 
 		else if(this.advanceFlag == 5 && r== this.button1){
 			this.buttonText1.setText("Kraken");
@@ -264,6 +339,14 @@ var level1 = {
 			this.advance();
 		}
 
+        else if(this.advanceFlag == 5 && r!= this.button1){
+			this.wrongAnswer();
+		}
+        
+        else if(this.advanceFlag == 6 && r!= this.button1){
+			this.wrongAnswer();
+		}
+        
 		else if(this.advanceFlag == 6 && r== this.button1){
 			this.buttonGroup1.visible = false;
 			this.buttonGroup2.visible = false;
@@ -285,7 +368,12 @@ var level1 = {
 	},
 
 	actionOut: function(r){
-		r.tint = "0xffcc38"
+        if(r.key == "homeButton"){
+           r.tint = "0xffffff";
+        }  
+        else{
+		  r.tint = "0xffcc38";
+        }
 	},
 
 
@@ -317,9 +405,11 @@ var level1 = {
 			}
 
 			else if(this.advanceFlag == 12){
+				this.buttonGroup2.visible = false;
 				instance.sharkDies(instance.shark3);
 				instance.go = true;
 			}
+            
 
 		}, this);
 	},
@@ -336,6 +426,7 @@ var level1 = {
 			if(this.advanceFlag == 3){
 			// Change Color of sails
 				game.time.events.add(11000, this.getInBoat, this);
+                this.getCoins(3);
 			}
 
 			else if(this.advanceFlag == 5 || this.advanceFlag == 6 || this.advanceFlag == 10 || this.advanceFlag == 11 || this.advanceFlag == 12 ){
@@ -343,8 +434,13 @@ var level1 = {
 			}
 
 			else if(this.advanceFlag == 7){
+                this.getCoins(4);
 				this.go = true;
 			}
+            
+            else if(this.advanceFlag == 13){
+                this.missyEscapes();
+            }
 
 			this.speechSynth();
 			this.scriptText.setText(this.script[this.advanceFlag]);
@@ -410,6 +506,25 @@ var level1 = {
 		anim.to({y: game.world.height + 1000}, 600, Phaser.Easing.Default, true);
 	},
 
+    missyEscapes: function(){
+        console.log("missy");
+        var instance = this;
+        var anim = game.add.tween(this.missy);
+        anim.to({x: this.missy.x + 130}, 800, Phaser.Easing.Default, true);
+        anim.onComplete.add(function(){
+            var anim2 = game.add.tween(instance.missy);
+            anim2.to({y: instance.missy.y - game.world.height}, 1800, Phaser.Easing.Default, true);
+            anim2.onComplete.add(this.transitionAnimation, this);
+        }, this);
+    },
+    
+    wrongAnswer:function(){
+        var synth = window.speechSynthesis;
+		var s = new SpeechSynthesisUtterance("Ooops. Try again!");
+		synth.speak(s);
+        this.scriptText.setText("Ooops. Try again!");
+    },
+    
 	update: function(){
 		this.cloud1.y += 0.3 * this.direction;
 		this.cloud2.y -= 0.3 * this.direction;
@@ -437,6 +552,7 @@ var level1 = {
 			}
 
 			this.bg.x -= 3;
+            this.missy.x -= 3;
 			this.water.x -=1;
 
 			if(this.bg.x < -1 * (this.bg.width - this.game.world.width )){
