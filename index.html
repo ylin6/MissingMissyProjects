@@ -7,8 +7,9 @@
     </head>
     <body>
       <div id='login-page'></div>
-      <!--<img src="assets/login.png" alt="login">-->
-      <div style="text-align: center; vertical-align: middle;" >
+      <div class="login-overlay">
+        <img src="./assets/login_overlay.png" width="100%">
+        <div class = "login-form" style="text-align: center; vertical-align: middle;" >
         Login
         <form>
           Email:
@@ -26,6 +27,7 @@
           <input type = "password" name = "signup-password" id="signup-password"> <br>
           <button type = "button" id="signup-btn"> Sign Up </button>
         </form>
+      </div>
       </div>
       <script type="text/javascript" src="js/login.js"></script>
       <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>

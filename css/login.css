@@ -6,10 +6,22 @@ html, body
 }
 
 body{
-  background: url("../assets/login.png");
+  background: url("../assets/login_bg.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.login-overlay{
+  margin: 8% auto;
+  width: 500px;
+  top: 50%;
+}
+
+.login-form{
+  z-index: 100;
+  margin-top: -90%;
+  color: #ffffff;
 }
 
 /*
