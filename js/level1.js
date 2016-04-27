@@ -148,7 +148,7 @@ var level1 = {
 		this.cloud5.scale.setTo(0.47, 0.5);
 		this.robot.scale.setTo(scale/3, scale/3);
 
-		this.scriptText = game.add.text(game.world.centerX, game.world.height - 100, this.script[0]);
+		this.scriptText = game.add.text(game.world.centerX, game.world.height - 150, this.script[0]);
 		this.speechSynth();
 		this.scriptText.anchor.setTo(0.5);
 		this.scriptText.addColor("#ffffff", 0)
@@ -229,6 +229,7 @@ var level1 = {
         this.buttonText1.font = "Whitney";
         this.buttonText2.font = "Whitney";
         this.buttonText3.font = "Whitney";
+        
         var homeButton = game.add.button(30, game.world.height - 100 , 'homeButton', this.goHome, this, 2, 1, 0);
         homeButton.onInputOver.add(this.actionOver, this);
 		homeButton.onInputOut.add(this.actionOut, this);

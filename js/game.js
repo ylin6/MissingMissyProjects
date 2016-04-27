@@ -7,7 +7,7 @@ var set = false;
 var coins = 0;
 var robotModel;
 var robotColorModel;
-var startLevel;
+var nextLevel = 0;
 
 // Adding Game States
 game.state.add('endLevelMenu', endLevelMenu);
