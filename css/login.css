@@ -10,6 +10,8 @@ body{
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  font-family: "Whitney", san-serif;
+  color: white;
 }
 
 .login-overlay{
@@ -22,6 +24,10 @@ body{
   z-index: 100;
   margin-top: -90%;
   color: #ffffff;
+}
+
+form{
+  margin: 10px 10px;
 }
 
 /*
