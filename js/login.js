@@ -1,34 +1,45 @@
-//var r = new Firebase("https://sizzling-inferno-4441.firebaseio.com");
-$('#signup-btn').click(signUp);
+var loginMenu = {
+  preload: function(){
+    game.load.image('login-sreen','assets/login.png');
+  },
 
-function signUp(){
-  var r = new Firebase("https://sizzling-inferno-4441.firebaseio.com");
-  console.log("Clicked");
-  r.createUser({
-  email    : $('#signup-username').val(),
-  password : $('#signup-password').val(),
-  }, function(error, userData) {
-    if (error) {
-      console.log("Error creating user:", error);
-    } else {
-      console.log("Successfully created user account with uid:", userData.uid);
+  create: function(){
+    this.bg = game.add.sprite(game.world.centerX, game.world.centerY, 'login-screen');
+  },
+
+  start: function(){
+    $('#signup-btn').click(signUp);
+
+    function signUp(){
+      var r = new Firebase("https://sizzling-inferno-4441.firebaseio.com");
+      console.log("Clicked");
+      r.createUser({
+      email    : $('#signup-username').val(),
+      password : $('#signup-password').val(),
+      }, function(error, userData) {
+        if (error) {
+          console.log("Error creating user:", error);
+        } else {
+          console.log("Successfully created user account with uid:", userData.uid);
+        }
+      });
     }
-  });
-}
 
-$('#login-btn').click(login);
+    $('#login-btn').click(login);
 
-function login(){
-  var ref = new Firebase("https://sizzling-inferno-4441.firebaseio.com");
-  ref.authWithPassword({
-    email    : $('#username').val(),
-    password : $('#password').val(),
-  }, function(error, authData) {
-    if (error) {
-      console.log("Login Failed!", error);
-    } else {
-      console.log("Authenticated successfully with payload:", authData);
-      window.location.replace("./home.html");
+    function login(){
+      var ref = new Firebase("https://sizzling-inferno-4441.firebaseio.com");
+      ref.authWithPassword({
+        email    : $('#username').val(),
+        password : $('#password').val(),
+      }, function(error, authData) {
+        if (error) {
+          console.log("Login Failed!", error);
+        } else {
+          console.log("Authenticated successfully with payload:", authData);
+          window.location.replace("./home.html");
+        }
+      });
     }
-  });
-}
+  },
+};
