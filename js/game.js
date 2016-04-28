@@ -3,6 +3,7 @@ var height = window.innerHeight;
 var game = new Phaser.Game(width, height, Phaser.AUTO, 'game-frame');
 
 // User Settings
+var uid = "";
 var set = false;
 var coins = 0;
 var robotModel;
@@ -10,6 +11,7 @@ var robotColorModel;
 var nextLevel = 0;
 
 // Adding Game States
+game.state.add('login', loginMenu);
 game.state.add('endLevelMenu', endLevelMenu);
 game.state.add("level1", level1);
 game.state.add("house-menu", houseMenu);
@@ -18,11 +20,6 @@ game.state.add('info', infoState);
 game.state.add('choose-build', chooseBuildState);
 game.state.add('build', build);
 
-//SR
-/*
-var recognition = new webkitSpeechRecognition();
-recognition.lang = "en-US";
-recognition.start();*/
 
 if(set){
 	startLevel = 'houseMenu';
@@ -34,7 +31,7 @@ if(set){
 WebFont.load({
 	active: function() {
         console.log("font loaded");
-        game.state.start('menu');
+        game.state.start('login');
     },
 
 	custom: {

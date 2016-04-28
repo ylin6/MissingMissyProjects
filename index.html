@@ -1,38 +1,48 @@
 <!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>Missing Missy login</title>
-        <link rel="stylesheet" href="./css/fonts.css">
-        <link rel="stylesheet" href="./css/login.css">
-    </head>
-    <body>
-      <div id='login-page'></div>
-      <div class="login-overlay">
-        <img src="./assets/login_overlay.png" width="100%">
-        <div class = "login-form" style="text-align: center; vertical-align: middle;" >
+<html lang = "en">
+	<head>
+		<meta charset = "utf-8">
+		<title> Missing Missy </title>
+		<link rel="stylesheet" href="./css/fonts.css">
+		<link rel="stylesheet" href="./css/main.css">
+		<script src="js/phaser.js"></script>
+	</head>
+	<body>
+		<div id="game-frame">
+		</div>
+		<div class = "login-form" style="text-align: center; vertical-align: middle;" >
+		<p id="error"></p>
+		<p id="success"></p>
         Login
-        <form>
-          Email:
-          <input type = "text" name = "username" id="username"> <br>
-          Password:
-          <input type = "password" name = "password" id="password"> <br>
-          <button type = "button" id="login-btn"> Log In </button>
-
-        </form>
-        Sign Up
-        <form>
-          Email:
-          <input type = "text" name = "signup-username" id="signup-username"> <br>
-          Password:
-          <input type = "password" name = "signup-password" id="signup-password"> <br>
-          <button type = "button" id="signup-btn"> Sign Up </button>
-        </form>
-      </div>
-      </div>
-      <script type="text/javascript" src="js/login.js"></script>
-      <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
-      <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
-      <script src="https://cdn.firebase.com/js/simple-login/1.6.4/firebase-simple-login.js"></script>
-    </body>
+	        <form>
+	          Email:
+	          <input type = "text" name = "username" id="username"> <br>
+	          Password:
+	          <input type = "password" name = "password" id="password"> <br>
+	          <button type = "button" id="login-btn"> Log In </button>
+	        </form>
+	        Sign Up
+	        <form>
+	          Email:
+	          <input type = "text" name = "signup-username" id="signup-username"> <br>
+	          Password:
+	          <input type = "password" name = "signup-password" id="signup-password"> <br>
+	          <button type = "button" id="signup-btn"> Sign Up </button>
+	        </form>
+      	</div>
+      	<!-- dependencies go in reverse order -->
+      	<script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
+      	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+      	<script src="https://cdn.firebase.com/js/simple-login/1.6.4/firebase-simple-login.js"></script>
+        <script type="text/javascript" src="js/endLevelMenu.js"></script>
+		<script type="text/javascript" src="js/webfontloader.js"></script>
+		<script type="text/javascript" src="js/level1.js"></script>
+		<script type="text/javascript" src="js/house.js"></script>
+		<script type="text/javascript" src="js/build.js"></script>
+		<script type="text/javascript" src="js/chooseBuild.js"></script>
+		<script type="text/javascript" src="js/info.js"></script>
+		<script type="text/javascript" src="js/menu.js"></script>
+		<script type="text/javascript" src="js/login.js"></script>
+		<script src="js/game.js"></script>
+	</body>
 </html>
