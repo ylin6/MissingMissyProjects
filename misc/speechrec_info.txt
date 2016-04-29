@@ -1,0 +1,147 @@
+Basic Speech Recognition Implementation
+Updated 4/27/16
+
+To start speech recognition, make a speech recognition object and configure it:
+	instance=this; //Enables recognition object to access class variables,
+eg. instance.script
+	var recognition=new webkitSpeechRecognition();
+	recognition.lang="en-US";
+	recognition.continuous=true;
+
+To start listening:
+	recognition.start();
+
+To stop listening:
+	recognition.stop();
+
+By default, recognition will time out and stop. To avoid stopping when there
+is no input, define the following handler to restart listening:
+	recognition.onend=function(event){
+		recognition.stop();
+		recognition.start();
+	}
+If user input doesn't match acceptable input as specified by the dictionary,
+a similar handler should be implemented. 
+
+Define handler to process result:
+	recognition.onresult=function(event){
+		var response=event.results[event.resultIndex][0].transcript;
+		//response contains speech input from user
+		
+	}
+
+To handle acceptable input/correct answers, create a list containing strings
+that are accepted:
+	var dict=["yes","no"]
+On receiving a result, iterate through the list to determine if there is a 
+match. Must trim whitespace using trim() or results will not match. For
+example:
+	if(response.trim()===dict[i].trim())
+		console.log("Input accepted");
+
+If input fails, count the number of attempts, and either advance or add 
+button input after a certain number, or restart recognition. This doesn't 
+currently work properly. 
+
+Once script index reaches a certain point, advance to next level/action. 
+Based on current text index, specify what words are acceptable input and
+what action to take. 
+
+Example implemented as member function of game state object:
+
+        advanceScript: function(){
+                var dict=[];
+                //if(textIndex!=0){
+                //      this.textIndex+=1;
+                //}
+
+                if(this.textIndex == 2){
+                        this.buttonText.setText("Yes, I'll Help You!");
+                        dict=["yes I'll help you","yes","yeah","ya"];
+                }
+
+                else if (this.textIndex == 3){
+                        this.buttonText.setText("'Open Sesame'");
+                        dict=["open sesame","open","sesame"];
+                }
+                else if(this.textIndex >= 4) {
+                        this.openDoor();
+                        return;
+                }
+                this.speechSynth(this.script[this.textIndex]);
+                this.scriptText.setText(this.script[this.textIndex]);
+                instance = this;
+                /*
+                recognition.onresult = function(event){
+                        instance.age = event["results"][0][0]["transcript"];
+                        console.log(instance.age);
+                        instance.scriptText[2] = age + "? What a great age to be! Hey " + instance.name + " I seem to have lost my parts, will you help build me again?";
+                        instance.textIndex+=1;
+                        instance.scriptText.setText(instance.script[instance.textIndex]);
+                }       */
+                var recognition=new webkitSpeechRecognition();
+
+                recognition.lang="en-US";
+                recognition.continuous=true;
+                recognition.start();
+                var match=false;
+                var numTries=0;
+                recognition.onresult=function(event){
+                        var response=event.results[event.resultIndex][0].transcript;
+                        console.log(response);
+                        match=false;
+                        if(instance.script.length==0){
+                                match=true;
+                        }
+                        for(i=0;i<dict.length;i++){
+                                if(response.trim()===dict[i].trim()){
+                                        match=true; //Verify valid input from dictionary
+                                        break;
+                                }
+                        }
+                        if(match){
+                                console.log("Valid input");
+                                if(instance.script.length>0 && instance.textIndex>instance.script.length){
+                                        this.openDoor(); //instance.openDoor();
+                                }else{
+                                        this.incrIndex();
+                                }
+                        }else{
+                                numTries++;
+
+                                //if numTries>3, advance, else:
+                                if(numTries<=3){
+                                        recognition.stop();
+                                        instance.speechSynth("I didn't catch that, can you say that again?");
+                                        recognition.start();
+                                }else{
+                                        recognition.stop();
+                                        instance.speechSynth("Click a button");
+                                        recognition.start();
+                                }
+                        }
+                }
+                recognition.onend=function(event){
+                        recognition.stop();
+                        recognition.start();
+                }
+                recognition.onerror=function(event){
+                        console.log("Speech recognition error: "+event.error);
+                        recognition.stop();
+                        //recognition.start();
+                }
+        },
+
+Problems with this implementation:
+- Recognizer starts listening while synthesizer is still speaking - need to delay listening until speech is
+complete
+- Once the second line starts, recognizer continually aborts
+- Can eventually crash the browser
+
+
+Future considerations:
+- Create a new webkitSpeechRecognition object every time the game listens for speech 
+input, rather than reusing the same one every time - possibly inefficient but would prevent 
+errors with restarting while running
+
+
